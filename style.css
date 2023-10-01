@@ -93,7 +93,7 @@ input[type="text"]:focus {
 	width: 25px;
 	height: 25px;
 	border-radius: 50%;
-	background-color: red;
+	background-color: skyblue;
 }
 
 .search .image {
@@ -170,7 +170,7 @@ select#palette-count {
 	position: relative;
 	width: 100%;
 	height: 150px;
-	background-color: red;
+	background-color: skyblue;
 }
 
 .palette .color .overlay {
@@ -184,7 +184,7 @@ select#palette-count {
 	justify-content: center;
 	transform: scale(2);
 	transition: all 0.15s ease;
-	background-color: rgba(0, 0, 0, 0.1);
+	/* background-color: rgba(0, 0, 0, 0.1); */
 	opacity: 0;
 }
 
