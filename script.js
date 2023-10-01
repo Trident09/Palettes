@@ -168,10 +168,10 @@ function generatePaletteHTML(type, container) {
 		colorEl.innerHTML = `
 			<div class="overlay">
 				<div class="icons">
-					<div class="copy-color">
+					<div class="copy-color" title="Copy Color Code">
 						<i class="far fa-copy"></i>
 					</div>
-					<div class="generate-palette">
+					<div class="generate-palette" title="Generate Palette">
 						<i class="fas fa-palette"></i>
 					</div>
 				</div>
@@ -303,3 +303,48 @@ randomBtn.addEventListener("click", () => {
 	generatePaletteHTML("related", relatedContainer);
 });
 
+const palettes = document.querySelectorAll(".palette");
+palettes.forEach((palette) => {
+	palette.addEventListener("click", (e) => {
+		const target = e.target;
+		const color =
+			target.parentElement.parentElement.children[1].textContent;
+		if (target.classList.contains("copy-color")) {
+			copyToClipboard(color);
+			toast(`Color ${color} copied to clipboard`);
+		}
+		if (target.classList.contains("generate-palette")) {
+			searchInput.value = color;
+			searchColor.style.backgroundColor = color;
+			currentColor = color;
+			generatePaletteHTML(currentType, paletteContainer);
+			generatePaletteHTML("related", relatedContainer);
+			toast(`Palette generated for color ${color}`);
+		}
+	});
+});
+
+function copyToClipboard(text) {
+	const input = document.createElement("input");
+	input.value = text;
+	document.body.appendChild(input);
+	input.select();
+	document.execCommand("copy");
+	input.remove();
+}
+
+function toast(message) {
+	const toast = document.createElement("div");
+	toast.classList.add("toast");
+	toast.textContent = message;
+	document.body.appendChild(toast);
+	setTimeout(() => {
+		toast.classList.add("show");
+	}, 10);
+	setTimeout(() => {
+		toast.classList.remove("show");
+		toast.addEventListener("transitionend", () => {
+			toast.remove();
+		});
+	}, 2000);
+}

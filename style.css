@@ -202,6 +202,10 @@ select#palette-count {
 	color: var(--tertiary-color);
 }
 
+.palette .color .icons i {
+	pointer-events: none;
+}
+
 .palette .color .icons div {
 	width: 30px;
 	height: 30px;
