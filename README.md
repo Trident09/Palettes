@@ -1,2 +1,2 @@
-# Palletes
-Random Color Pallete Generator Using JavaScript
+# Palettes Generator
+Random Color Palette Generator Using JavaScript
