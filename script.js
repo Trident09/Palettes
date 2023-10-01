@@ -2,6 +2,7 @@ const searchInput = document.querySelector("#search-input"),
 	searchColor = document.querySelector(".search-color"),
 	searchImage = document.querySelector("#search-image"),
 	typeSelect = document.querySelector("#palette-type"),
+	typeText = document.querySelector("#type-text"),
 	countSelect = document.querySelector("#palette-count"),
 	randomBtn = document.querySelector("#random-btn"),
 	paletteContainer = document.querySelector("#palette"),
@@ -258,6 +259,15 @@ function HslToHex(hsl) {
 	return `#${f(0)}${f(8)}${f(4)}`;
 }
 
+function getRandomColor() {
+	const letters = "0123456789ABCDEF";
+	let color = "#";
+	for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
+
 generatePaletteHTML(currentType, paletteContainer);
 generatePaletteHTML("related", relatedContainer);
 
@@ -269,5 +279,27 @@ searchInput.addEventListener("keyup", (e) => {
 		generatePaletteHTML(currentType, paletteContainer);
 		generatePaletteHTML("related", relatedContainer);
 	}
+});
+
+typeSelect.addEventListener("change", (e) => {
+	const value = e.target.value;
+	currentType = value;
+	typeText.innerHTML = value + " Palette";
+	generatePaletteHTML(currentType, paletteContainer);
+});
+
+countSelect.addEventListener("change", (e) => {
+	const value = e.target.value;
+	currentCount = value;
+	generatePaletteHTML(currentType, paletteContainer);
+});
+
+randomBtn.addEventListener("click", () => {
+	const randomColor = getRandomColor();
+	searchInput.value = randomColor;
+	searchColor.style.backgroundColor = randomColor;
+	currentColor = randomColor;
+	generatePaletteHTML(currentType, paletteContainer);
+	generatePaletteHTML("related", relatedContainer);
 });
 
