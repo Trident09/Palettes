@@ -6,7 +6,9 @@ const searchInput = document.querySelector("#search-input"),
 	countSelect = document.querySelector("#palette-count"),
 	randomBtn = document.querySelector("#random-btn"),
 	paletteContainer = document.querySelector("#palette"),
-	relatedContainer = document.querySelector("#related");
+	relatedContainer = document.querySelector("#related"),
+	imageColorsContainer = document.querySelector("#image-colors"),
+	imageColorsWrapper = document.querySelector(".image-colors-wrapper");
 
 let currentColor = "skyblue",
 	currentType = "analogous",
@@ -159,9 +161,15 @@ function generatePaletteHTML(type, container) {
 	}
 	let palette = [];
 	container.innerHTML = "";
-	palette = generatePalette(hsl, type, count);
+	if (type === "image-colors") {
+		palette = imageColors;
+	} else {
+		palette = generatePalette(hsl, type, count);
+	}
 	palette.forEach((color) => {
-		color = HslToHex(color);
+		if (type != "image-colors") {
+			color = HslToHex(color);
+		}
 		const colorEl = document.createElement("div");
 		colorEl.classList.add("color");
 		colorEl.style.backgroundColor = color;
@@ -175,9 +183,7 @@ function generatePaletteHTML(type, container) {
 						<i class="fas fa-palette"></i>
 					</div>
 				</div>
-				<div class="code">
-					${color}
-				</div>
+				<div class="code">${color}</div>
 			</div>
 		`;
 		container.appendChild(colorEl);
@@ -347,4 +353,27 @@ function toast(message) {
 			toast.remove();
 		});
 	}, 2000);
+}
+searchImage.addEventListener("change", (e) => {
+	const file = e.target.files[0];
+	if (file) {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = function () {
+			const image = new Image();
+			image.src = reader.result;
+			image.onload = function () {
+				extractColorsFromImage(image);
+			};
+		};
+	}
+});
+
+function extractColorsFromImage(image) {
+	colorjs.prominent(image, { amount: 6, format: "hex" }).then((color) => {
+		imageColors = [];
+		imageColors.push(...color);
+		generatePaletteHTML("image-colors", imageColorsContainer);
+		imageColorsWrapper.classList.remove("hidden");
+	});
 }
