@@ -482,3 +482,13 @@ function downloadPaletteAsJson(colors, name) {
 	link.href = url;
 	link.click();
 }
+
+const toggle = document.querySelector("#toggle");
+
+toggle.addEventListener("change", (e) => {
+	if (e.target.checked) {
+		document.body.classList.add("dark");
+	} else {
+		document.body.classList.remove("dark");
+	}
+});
